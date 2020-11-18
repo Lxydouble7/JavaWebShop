@@ -167,8 +167,9 @@
                                     </div>
                                     </div>
                             </section>
-                            <button type="submit" class="btn subscrib-btnn checkout-right-basket">提交订单</button>
+                            <button type="submit" class="btn subscrib-btnn checkout-right-basket">提交订单（可能加载有点慢，稍微等等）</button>
                         </form>
+
                     </div>
                     <div class="clearfix"> </div>
                     <div class="clearfix"></div>

@@ -64,7 +64,7 @@ td.invert-image a img {
 .close1,
 .close2,
 .close3 {
-	background: url('../images/close_1.jpg') no-repeat 0px 0px;
+	/*background: url('../images/close_1.jpg') no-repeat 0px 0px;*/
     cursor: pointer;
     width: 41px;
     height: 39px;
@@ -188,11 +188,11 @@ td.invert-image a img {
 	margin: 3em 0em;
 }
 
+
 .checkout-left-basket ul li span {
 	float: right;
 }
-
-.checkout-left-basket ul li:nth-child(5) {
+.checkout-left-basket ul li:last-child {
 	font-size: 1em;
 	color: #212121;
 	font-weight: 600;

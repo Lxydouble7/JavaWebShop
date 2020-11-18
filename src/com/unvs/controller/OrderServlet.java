@@ -65,8 +65,6 @@ public class OrderServlet extends BaseServlet{
         List<Order> OrderList = service.QueryOrderByUid(user.getUid());
         Integer osum = 0;
         for (Order i : OrderList){
-//            System.out.println(i.getPay());
-//            System.out.println("123");
             osum++;
         }
         session.setAttribute("osum",osum);
