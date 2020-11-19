@@ -6,7 +6,6 @@
 
 ## 开发环境
 
-* JSP + Servlet
 * MySQL 8.0.21
 * IntellijIDEA 2020.2.2
 * Google Chrome 86.0.4240.198
