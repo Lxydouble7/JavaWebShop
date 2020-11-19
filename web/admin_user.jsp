@@ -65,7 +65,7 @@
     <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
         <div class="shop_inner_inf">
             <div class="privacy about">
-                <h3>订单</h3>
+                <h3>用户信息</h3>
                 <div class="checkout-right">
                     <h4>总计有: <span>${usersum} 名用户</span></h4>
                     <table class="timetable_sub">

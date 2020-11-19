@@ -27,7 +27,7 @@
                         <a class="nav-link" href="index.jsp">商城主页 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="admin_index.jsp">管理员主页 <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="admin_index.jsp"ding>管理员主页 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <%
@@ -64,7 +64,7 @@
     <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
         <div class="shop_inner_inf">
             <div class="privacy about">
-                <h3>订单</h3>
+                <h3>订单信息</h3>
                 <div class="checkout-right">
                     <h4>总计有: <span>${osum} 份订单</span></h4>
                     <table class="timetable_sub">
