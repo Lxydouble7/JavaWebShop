@@ -18,7 +18,7 @@ public class MailUtils {
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
 				//第一个参数：邮箱名   第二个参数：授权码
-				return new PasswordAuthentication("864381561", "bypfthjtslhrbeai");
+				return new PasswordAuthentication("不告诉你", "不告诉你");
 			}
 		};
 
