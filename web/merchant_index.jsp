@@ -1,10 +1,11 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 86438
-  Date: 2020/11/16
-  Time: 12:53
+  User: UNVS
+  Date: 2021/4/18
+  Time: 10:47
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="zxx">
@@ -31,7 +32,7 @@
 <div class="header-outs" id="home">
     <div class="header-bar">
 
-        <%@ include file="adminTop.jsp" %>
+        <%@ include file="merchant_top.jsp" %>
         <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -42,33 +43,30 @@
                         <a class="nav-link" href="index.jsp">商城主页 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="admin_index.jsp">管理员主页 <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="merchant_index.jsp">商家主页 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <%
-                            if(session.getAttribute("admin")==null){
+                            if(session.getAttribute("merchant")==null){
                         %>
-                        <a href="admin_login.jsp" class="nav-link">登录</a>
-                        <%
-                            }
-                            if(session.getAttribute("admin")!=null){
-                        %>
-                        <a href="${pageContext.request.contextPath}/admin?method=logout" class="nav-link">注销</a>
+                        <a href="merchant_login.jsp" class="nav-link">登录</a>
                         <%
                             }
+                            if(session.getAttribute("merchant")!=null){
+                        %>
+                        <a href="${pageContext.request.contextPath}/merchant?method=logout" class="nav-link">注销</a>
+                        <%
+                            }
                         %>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllUser" class="nav-link">用户信息</a>
+                        <a href="${pageContext.request.contextPath}/merchant?method=ShowAllUser" class="nav-link">商铺信息</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllMerchant" class="nav-link">商户信息</a>
+                        <a href="${pageContext.request.contextPath}/merchant?method=ShowAllProduct" class="nav-link">商品信息</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllProduct" class="nav-link">商品信息</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllOrder" class="nav-link">订单信息</a>
+                        <a href="${pageContext.request.contextPath}/merchant?method=ShowAllOrder" class="nav-link">订单信息</a>
                     </li>
                 </ul>
             </div>
@@ -79,7 +77,7 @@
 </div>
 <section class="about py-lg-4 py-md-3 py-sm-3 py-3">
     <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
-        <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">您已进入管理员界面</h3>
+        <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">您已进入商家界面</h3>
         <div class="about-innergrid-agile text-center">
             <p class="mb-3">
                 梁夏雨 201830590130 网络工程 网络应用开发
@@ -113,4 +111,3 @@
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
-

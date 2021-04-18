@@ -46,6 +46,9 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllUser" class="nav-link">用户信息</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllMerchant" class="nav-link">商户信息</a>
+                    </li>
                     <li class="nav-item active">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllProduct" class="nav-link">商品信息</a>
                     </li>
