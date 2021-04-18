@@ -57,6 +57,29 @@ public class OrderDao {
         }
         return result;
     }
+    public List<Order> QueryOrderByMerchant(String merchant) throws SQLException{
+        String sql = "SELECT * FROM eshop.order where merchant = ?;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        List<Order> result = new ArrayList<>();
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,merchant);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result.add(new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getString(3),resultSet.getString(4),
+                        resultSet.getString(5),resultSet.getInt(6),resultSet.getString(7),resultSet.getString(8),
+                        resultSet.getDouble(9),resultSet.getString(10),resultSet.getString(11),resultSet.getString(12),
+                        resultSet.getString(13)));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
     public List<Order> ShowAllOrder() throws SQLException{
         String sql = "SELECT * FROM eshop.order;";
         ResultSet resultSet = null;

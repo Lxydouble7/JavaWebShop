@@ -46,6 +46,9 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllUser" class="nav-link">用户信息</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=ShowAllMerchant" class="nav-link">商户信息</a>
+                    </li>
                     <li class="nav-item ">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllProduct" class="nav-link">商品信息</a>
                     </li>
@@ -61,7 +64,7 @@
 <div class="inner_page-banner one-img">
 </div>
 <section class="checkout py-lg-4 py-md-3 py-sm-3 py-3">
-    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
+<%--    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">--%>
         <div class="shop_inner_inf">
             <div class="privacy about">
                 <h3>订单信息</h3>
@@ -108,7 +111,7 @@
                 </div>
             </div>
         </div>
-    </div>
+<%--    </div>--%>
 </section>
 <script src='js/jquery-2.2.3.min.js'></script>
 <script src="js/minicart.js"></script>

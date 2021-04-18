@@ -35,11 +35,12 @@ public class AdminService {
     public void DeleteProductByPid(Integer oid) throws SQLException{
         productDao.DeleteProductByPid(oid);
     }
+//    public void AlterProductByPid(Integer oid) throws SQLException{
+//        productDao.AlterProductByPid(oid);
+//    }
     public List<Product> GetAllProduct() throws SQLException{
         return  productDao.findall();
     }
-    public void NewProduct (String pname,Double price,String image,String image1,String image2,int type,String intro,Integer stock,String description) throws SQLException {
-        productDao.NewProduct(pname,price,image,image1,image2,type,intro,stock,description);
-    }
+
 }
 

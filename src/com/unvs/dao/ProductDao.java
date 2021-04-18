@@ -24,8 +24,8 @@ public class ProductDao {
             while (resultSet.next()){
                 list.add(new Product(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),
                         resultSet.getString(4),resultSet.getString(5),resultSet.getString(6),
-                        resultSet.getInt(7),resultSet.getString(8),resultSet.getInt(9),
-                        resultSet.getString(10)));
+                        resultSet.getString(7),resultSet.getString(8),resultSet.getInt(9),
+                        resultSet.getString(10),resultSet.getString(11)));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -47,8 +47,8 @@ public class ProductDao {
             while (resultSet.next()){
                 product = new Product(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),
                         resultSet.getString(4),resultSet.getString(5),resultSet.getString(6),
-                        resultSet.getInt(7),resultSet.getString(8),resultSet.getInt(9),
-                        resultSet.getString(10));
+                        resultSet.getString(7),resultSet.getString(8),resultSet.getInt(9),
+                        resultSet.getString(10),resultSet.getString(11));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -72,7 +72,32 @@ public class ProductDao {
             JDBCTools.release(connection,statement,resultSet);
         }
     }
-    public void NewProduct(String pname, Double price, String image, String image1, String image2, int type, String intro, Integer stock, String description) throws SQLException{
+    public void AlterProductByPid(Integer pid,String pname,Double price,String image,String image1,String image2,String type,String intro,Integer stock,String description, String merchant) throws SQLException{
+        Connection connection = JDBCTools.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String sql = "update `eshop`.`product` set pname=?, price=?, image=?, image1=?, image2=?, type=?, intro=?, stock=?, description=?, merchant=? where pid=?;";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,pname);
+            statement.setDouble(2,price);
+            statement.setString(3,image);
+            statement.setString(4,image1);
+            statement.setString(5,image2);
+            statement.setString(6,type);
+            statement.setString(7,intro);
+            statement.setInt(8,stock);
+            statement.setString(9,description);
+            statement.setString(10,merchant);
+            statement.setInt(11,pid);
+            statement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+    }
+    public void NewProduct(String pname, Double price, String image, String image1, String image2, String type, String intro, Integer stock, String description) throws SQLException{
         Connection connection = JDBCTools.getConnection();
         ResultSet resultSet = null;
         PreparedStatement statement = null;
@@ -84,7 +109,7 @@ public class ProductDao {
             statement.setString(3,image);
             statement.setString(4,image1);
             statement.setString(5,image2);
-            statement.setInt(6,type);
+            statement.setString(6,type);
             statement.setString(7,intro);
             statement.setInt(8,stock);
             statement.setString(9,description);
@@ -94,6 +119,30 @@ public class ProductDao {
         } finally {
             JDBCTools.release(connection,statement,resultSet);
         }
+    }
+    public List<Product> QueryProductByMerchant(String name) throws SQLException{
+        Connection connection = JDBCTools.getConnection();
+        String sql = "select * from product where merchant = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Product product = null;
+        List<Product> list = new ArrayList<>();
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,String.valueOf(name));
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                list.add(new Product(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),
+                        resultSet.getString(4),resultSet.getString(5),resultSet.getString(6),
+                        resultSet.getString(7),resultSet.getString(8),resultSet.getInt(9),
+                        resultSet.getString(10),resultSet.getString(11)));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally{
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return list;
     }
 
 }

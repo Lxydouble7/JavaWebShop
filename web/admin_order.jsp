@@ -64,7 +64,7 @@
 <div class="inner_page-banner one-img">
 </div>
 <section class="checkout py-lg-4 py-md-3 py-sm-3 py-3">
-    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
+<%--    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">--%>
         <div class="shop_inner_inf">
             <div class="privacy about">
                 <h3>订单信息</h3>
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-    </div>
+<%--    </div>--%>
 </section>
 <script src='js/jquery-2.2.3.min.js'></script>
 <script src="js/minicart.js"></script>

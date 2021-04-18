@@ -13,6 +13,23 @@ public class Order {
     private String time;
     private String pay;
     private String email;
+    private String merchant;
+
+    public Order(Integer oid, Integer uid, String uname, String address, String telephone, Integer pid, String pname, String number, Double total_price, String time, String pay, String email, String merchant) {
+        this.oid = oid;
+        this.uid = uid;
+        this.uname = uname;
+        this.address = address;
+        this.telephone = telephone;
+        this.pid = pid;
+        this.pname = pname;
+        this.number = number;
+        this.total_price = total_price;
+        this.time = time;
+        this.pay = pay;
+        this.email = email;
+        this.merchant = merchant;
+    }
 
     public String getEmail() {
         return email;
@@ -123,5 +140,13 @@ public class Order {
         this.time = time;
         this.pay = pay;
         this.email = email;
+    }
+
+    public String getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(String merchant) {
+        this.merchant = merchant;
     }
 }

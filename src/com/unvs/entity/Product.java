@@ -14,10 +14,14 @@ public class Product {
 	private String image;
 	private String image1;
 	private String image2;
-	private int type;
+	private String type;
 	private String intro;
 	private int stock;
 	private String description;
+	private String merchant;
+
+	public String getMerchant() { return merchant; }
+	public void setMerchant(String merchant) { this.merchant = merchant; }
 
 	public Integer getPid() {
 		return pid;
@@ -55,10 +59,10 @@ public class Product {
 	public void setImage2(String image2) {
 		this.image2 = image2;
 	}
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(int String) {
 		this.type = type;
 	}
 	public String getIntro() {
@@ -80,7 +84,7 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(Integer pid, String pname, Double price, String image, String image1, String image2, int type, String intro, int stock, String description) {
+	public Product(Integer pid, String pname, Double price, String image, String image1, String image2, String type, String intro, int stock, String description, String merchant) {
 		this.pid = pid;
 		this.pname = pname;
 		this.price = price;
@@ -91,7 +95,6 @@ public class Product {
 		this.intro = intro;
 		this.stock = stock;
 		this.description = description;
+		this.merchant = merchant;
 	}
-
-	
 }
