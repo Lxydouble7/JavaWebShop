@@ -1,13 +1,7 @@
 package com.unvs.service;
 
-import com.unvs.dao.AdminDao;
-import com.unvs.dao.OrderDao;
-import com.unvs.dao.ProductDao;
-import com.unvs.dao.UserDao;
-import com.unvs.entity.Admin;
-import com.unvs.entity.Order;
-import com.unvs.entity.Product;
-import com.unvs.entity.User;
+import com.unvs.dao.*;
+import com.unvs.entity.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,6 +9,7 @@ import java.util.List;
 public class AdminService {
     private AdminDao dao = new AdminDao();
     private UserDao userDao = new UserDao();
+    private MerchantDao merchantDao = new MerchantDao();
     private OrderDao orderDao = new OrderDao();
     private ProductDao productDao = new ProductDao();
     public Admin login(String name, String password) throws SQLException {
@@ -40,6 +35,15 @@ public class AdminService {
 //    }
     public List<Product> GetAllProduct() throws SQLException{
         return  productDao.findall();
+    }
+    public List<Merchant> GetAllMerchant() throws SQLException {
+        return merchantDao.showall();
+    }
+    public void DeleteMerchantByMid(Integer mid) throws SQLException{
+        merchantDao.DeleteMerchantByMid(mid);
+    }
+    public void timeset(String username,String ip,String in,String out){
+        dao.timeset(username,ip,in,out);
     }
 
 }

@@ -35,4 +35,7 @@ public class MerchantService {
     public void AlterProductByPid(Integer pid,String pname,Double price,String image,String image1,String image2,String type,String intro,Integer stock,String description,String merchant) throws SQLException {
         productDao.AlterProductByPid(pid,pname,price,image,image1,image2,type,intro,stock,description,merchant);
     }
+    public void timeset(String username,String ip,String in,String out){
+        merchantDao.timeset(username,ip,in,out);
+    }
 }

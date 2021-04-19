@@ -62,16 +62,10 @@
 <div class="inner_page-banner one-img">
 </div>
 <section class=" py-lg-4 py-md-3 py-sm-3 ">
-
     <a href="NewProduct.jsp" class="btn btn-primary"  data-target="#exampleModal-two" style="margin-left: 250px">
         新增商品
     </a>
-<%--    <a href="AdjustProductType.jsp" class="btn btn-primary"  data-target="#exampleModal-two" style="margin-left: 250px">--%>
-<%--        商品类别管理--%>
-<%--    </a>--%>
-
 </section>
-
 <section class="checkout py-lg-4 py-md-3 py-sm-3 py-3">
     <%--    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">--%>
     <div class="shop_inner_inf">

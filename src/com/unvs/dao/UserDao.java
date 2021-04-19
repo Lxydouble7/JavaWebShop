@@ -118,4 +118,22 @@ public class UserDao {
             JDBCTools.release(connection,statement,resultSet);
         }
     }
+    public void timeset(String username,String ip,String in,String out){
+        Connection connection = JDBCTools.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO `eshop`.`userlog` (`username`, `ip`, `in`, `out`) VALUES (?,?,?,?);";
+        try{
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, ip);
+            preparedStatement.setString(3, in);
+            preparedStatement.setString(4, out);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,preparedStatement,resultSet);
+        }
+    }
 }

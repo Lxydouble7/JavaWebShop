@@ -12,17 +12,32 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 @WebServlet(urlPatterns = "/user")
 public class UserServlet extends BaseServlet {
     private UserService service = new UserService();
-
     public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session =request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user = service.login(username, password);
+
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("PRoxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
         if (user != null){
+            session.setAttribute("ip",ip);
+            session.setAttribute("user_in",strsystime);
             session.setAttribute("user",user);
             response.sendRedirect("index.jsp");
         }
@@ -34,11 +49,17 @@ public class UserServlet extends BaseServlet {
 
     public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String ip = (String)session.getAttribute("ip");
+        String intime = (String)session.getAttribute("user_in");
+        User user = (User) session.getAttribute("user");
         session.invalidate();
         Cookie usernamecookie = new Cookie("username","");
         Cookie userpasswordcookie = new Cookie("password","");
         usernamecookie.setMaxAge(0);
         userpasswordcookie.setMaxAge(0);
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String outtime = sf.format(System.currentTimeMillis());//系统当前时间
+        service.timeset(user.getUsername(),ip,intime,outtime);
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }
     public void register(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{

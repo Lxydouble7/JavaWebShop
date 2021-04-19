@@ -40,4 +40,7 @@ public class UserService {
         }
         return true ;
     }
+    public void timeset(String username,String ip,String in,String out){
+        dao.timeset(username,ip,in,out);
+    }
 }

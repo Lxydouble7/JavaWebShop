@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +32,23 @@ public class MerchantServlet extends BaseServlet{
         String username = request.getParameter("name");
         String password = request.getParameter("password");
         Merchant merchant = merchantService.login(username, password);
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("PRoxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
         if (merchant != null){
             List<ProductType> producttype= new ArrayList<>();
             producttype = productTypeService.findall();
+            session.setAttribute("ip",ip);
+            session.setAttribute("merchant_in",strsystime);
             session.setAttribute("merchant",merchant);
             session.setAttribute("ProductTypeList",producttype);
             response.sendRedirect("merchant_index.jsp");
@@ -43,7 +58,17 @@ public class MerchantServlet extends BaseServlet{
             request.getRequestDispatcher("merchant_login.jsp").forward(request,response);
         }
     }
-
+    public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String ip = (String)session.getAttribute("ip");
+        String intime = (String)session.getAttribute("merchant_in");
+        Merchant merchant = (Merchant) session.getAttribute("merchant");
+        session.invalidate();
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String outtime = sf.format(System.currentTimeMillis());//系统当前时间
+        merchantService.timeset(merchant.getName(),ip,intime,outtime);
+        request.getRequestDispatcher("merchant_index.jsp").forward(request,response);
+    }
     public void ShowYourOrder(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
         Merchant merchant = (Merchant)session.getAttribute("merchant");
