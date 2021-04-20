@@ -60,7 +60,18 @@
         </nav>
     </div>
 </div>
-
+<script>
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+</script>
 <div class="inner_page-banner one-img">
 </div>
 <section class="checkout py-lg-4 py-md-3 py-sm-3 py-3">
@@ -68,6 +79,19 @@
         <div class="shop_inner_inf">
             <div class="privacy about">
                 <h3>订单信息</h3>
+                <div class="styled-input ">
+                    <a style="color:#5a5656;font-size:16px" >类型</a>
+
+                    <select name="type" required="" onchange="window.location.href='/myshop/admin?method=ShowAllOrder&index='+this.options[selectedIndex].value">
+
+                        <c:if test="${index ==null}">
+                            <option value="" >${index}</option>
+                        </c:if>
+                        <c:forEach items="${ProductTypeList}" var ="pt">
+                            <option value = ${pt.type}>${pt.type}</option>
+                        </c:forEach>
+                    </select>
+                </div>
                 <div class="checkout-right">
                     <h4>总计有: <span>${osum} 份订单</span></h4>
                     <table class="timetable_sub">

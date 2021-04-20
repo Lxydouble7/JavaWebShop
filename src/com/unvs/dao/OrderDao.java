@@ -80,8 +80,16 @@ public class OrderDao {
         }
         return result;
     }
-    public List<Order> ShowAllOrder() throws SQLException{
-        String sql = "SELECT * FROM eshop.order;";
+    public List<Order> ShowAllOrder(String index) throws SQLException{
+        String sql = null;
+        if (index == null){
+            sql = "SELECT * FROM eshop.order;";
+        }
+        else {
+            sql = "SELECT * FROM eshop.order where pname in (select pname from eshop.product where type =\"" + index +"\");";
+            System.out.println(sql);
+        }
+
         ResultSet resultSet = null;
         PreparedStatement statement = null;
         List<Order> result = new ArrayList<>();

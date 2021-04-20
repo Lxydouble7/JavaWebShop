@@ -95,26 +95,42 @@ public class AdminServlet extends BaseServlet{
         if (admin == null) {
             response.sendRedirect("admin_login.jsp");
         }
-        List<Order> OrderList = adminService.GetAllOrder();
-        int osum = 0;
-        for(Order i :OrderList){
-            osum++;
+        String index = request.getParameter("index");
+        System.out.println(index);
+        List<Order> OrderList = adminService.GetAllOrder(index);
+        int osum = OrderList.size();
+//        List<Example> example = exampleRepository.list();
+        List<ProductType> ty = (List)session.getAttribute("ProductTypeList");
+        if(index != null && null != ty&& ty.size() > 0){
+            for(int t = 0 , length = ty.size() ; t < length ; t++){
+                System.out.println(ty.get(t).getType());
+                if(index.equals(ty.get(t).getType())){
+                    ProductType temp = ty.get(0);
+                    ty.set(0, ty.get(t));
+                    ty.set(t, temp);
+                    System.out.println("!!!");
+                }
+            }
         }
+        session.setAttribute("ProductTypeList",ty);
         session.setAttribute("OrderList",OrderList);
         session.setAttribute("osum",osum);
+        session.setAttribute("index",index);
         request.getRequestDispatcher("admin_order.jsp").forward(request,response);
     }
     public void DeleteOrderByOid(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
         Integer oid = Integer.valueOf(request.getParameter("oid"));
         adminService.DeleteOrderByOid(oid);
-        List<Order> OrderList = adminService.GetAllOrder();
+        String index = request.getParameter("index");
+        List<Order> OrderList = adminService.GetAllOrder(index);
         int osum = 0;
         for(Order i :OrderList){
             osum++;
         }
         session.setAttribute("OrderList",OrderList);
         session.setAttribute("osum",osum);
+        session.setAttribute("index",index);
         request.getRequestDispatcher("admin_order.jsp").forward(request,response);
     }
     public void ShowAllProduct(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{

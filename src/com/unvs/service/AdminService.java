@@ -24,8 +24,8 @@ public class AdminService {
     public void DeleteOrderByOid(Integer oid) throws SQLException{
         orderDao.DeleteOrderByOid(oid);
     }
-    public List<Order> GetAllOrder() throws SQLException{
-        return  orderDao.ShowAllOrder();
+    public List<Order> GetAllOrder(String index) throws SQLException{
+        return  orderDao.ShowAllOrder(index);
     }
     public void DeleteProductByPid(Integer oid) throws SQLException{
         productDao.DeleteProductByPid(oid);
