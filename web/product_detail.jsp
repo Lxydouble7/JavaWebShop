@@ -30,46 +30,22 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul class="navbar-nav ">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.jsp">主页 <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/user?method=GetBack">返回 <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <%
-                            if(session.getAttribute("user")==null){
-                        %>
-                        <a href="login.jsp" class="nav-link">登录</a>
-                        <%
-                            }
-                            if(session.getAttribute("user")!=null){
-                        %>
-                        <a href="${pageContext.request.contextPath}/user?method=logout" class="nav-link">注销</a>
-                        <%
-                            }
-                        %>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/product?method=ViewAllProduct" class="nav-link">购物</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/cart?method=CheckOut" class="nav-link">购物车</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/order?method=ShowMyOrder" class="nav-link">订单</a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
     </div>
 </div>
-<!--//headder-->
-<!-- banner -->
+
 <div class="inner_page-banner one-img">
 </div>
-<!--//banner -->
-<!-- short -->
 
-<!-- //short-->
-<!--//banner -->
-<!--/shop-->
+    <a href="${pageContext.request.contextPath}/user?method=GetBack" class="btn btn-primary"  style=" position:fixed;left:50px;top:400px;">
+        返回
+    </a>
+
 <section class="banner-bottom py-lg-5 py-3">
     <div class="container">
         <div class="inner-sec-shop pt-lg-4 pt-3">

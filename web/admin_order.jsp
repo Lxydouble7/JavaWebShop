@@ -55,6 +55,12 @@
                     <li class="nav-item active" >
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllOrder" class="nav-link">订单信息</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=Statistics" class="nav-link">统计信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
+                    </li>
                 </ul>
             </div>
         </nav>

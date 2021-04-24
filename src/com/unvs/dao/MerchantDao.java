@@ -88,5 +88,22 @@ public class MerchantDao {
             JDBCTools.release(connection,preparedStatement,resultSet);
         }
     }
+    public void NewMerchant(String merchantname,String password,String name){
+        Connection connection = JDBCTools.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO `eshop`.`merchant` (`merchantname`, `name`, `password`) VALUES (?,?,?);";
+        try{
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, merchantname);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, password);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,preparedStatement,resultSet);
+        }
+    }
 
 }

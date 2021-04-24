@@ -14,8 +14,15 @@ public class ProductTypeService {
     public void DeleteProductType(String type) throws SQLException {
         dao.DeleteProductTypeByType(type);
     }
-    public void NewProductType(String type) throws SQLException {
+    public Boolean NewProductType(String type) throws SQLException {
+        Boolean result = false;
+        result = dao.CheckProductType(type);
+        if (result == false){
+            return false;
+        }
+
         dao.NewProductType(type);
+        return true;
     }
 
 }

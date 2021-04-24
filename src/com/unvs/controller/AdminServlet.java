@@ -1,10 +1,7 @@
 package com.unvs.controller;
 
 import com.unvs.entity.*;
-import com.unvs.service.AdminService;
-import com.unvs.service.OrderService;
-import com.unvs.service.ProductTypeService;
-import com.unvs.service.UserService;
+import com.unvs.service.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -27,7 +24,10 @@ import java.util.List;
 @WebServlet(urlPatterns = "/admin")
 public class AdminServlet extends BaseServlet{
     private AdminService adminService = new AdminService();
+    private MerchantService merchantService = new MerchantService();
+    private OrderService orderService = new OrderService();
     private ProductTypeService productTypeService = new ProductTypeService();
+    private OperationService operationService = new OperationService();
     public void AdminLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session =request.getSession();
         String username = request.getParameter("name");
@@ -50,7 +50,7 @@ public class AdminServlet extends BaseServlet{
         if (admin != null){
             List<ProductType> producttype= new ArrayList<>();
             producttype = productTypeService.findall();
-            session.setAttribute("ip",ip);
+            session.setAttribute("adminip",ip);
             session.setAttribute("admin_in",strsystime);
             session.setAttribute("admin",admin);
             session.setAttribute("ProductTypeList",producttype);
@@ -68,16 +68,20 @@ public class AdminServlet extends BaseServlet{
             request.getRequestDispatcher("admin_login.jsp").forward(request,response);
         }
         List<User> UserList = adminService.GetAllUser();
-        int usersum = 0;
-        for(User i :UserList){
-            usersum++;
-        }
+        int usersum = UserList.size();
+
         session.setAttribute("UserList",UserList);
         session.setAttribute("usersum",usersum);
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"查看用户");
         request.getRequestDispatcher("admin_user.jsp").forward(request,response);
     }
     public void DeleteUserByUid(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
         Integer uid = Integer.valueOf(request.getParameter("uid"));
         adminService.DeleteUserByUid(uid);
         List<User> UserList = adminService.GetAllUser();
@@ -87,6 +91,8 @@ public class AdminServlet extends BaseServlet{
         }
         session.setAttribute("UserList",UserList);
         session.setAttribute("usersum",usersum);
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"删除用户："+request.getParameter("uid"));
         request.getRequestDispatcher("admin_user.jsp").forward(request,response);
     }
     public void ShowAllOrder(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
@@ -96,22 +102,20 @@ public class AdminServlet extends BaseServlet{
             response.sendRedirect("admin_login.jsp");
         }
         String index = request.getParameter("index");
-        System.out.println(index);
         List<Order> OrderList = adminService.GetAllOrder(index);
         int osum = OrderList.size();
-//        List<Example> example = exampleRepository.list();
         List<ProductType> ty = (List)session.getAttribute("ProductTypeList");
         if(index != null && null != ty&& ty.size() > 0){
             for(int t = 0 , length = ty.size() ; t < length ; t++){
-                System.out.println(ty.get(t).getType());
                 if(index.equals(ty.get(t).getType())){
                     ProductType temp = ty.get(0);
                     ty.set(0, ty.get(t));
                     ty.set(t, temp);
-                    System.out.println("!!!");
                 }
             }
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"查看订单");
         session.setAttribute("ProductTypeList",ty);
         session.setAttribute("OrderList",OrderList);
         session.setAttribute("osum",osum);
@@ -120,6 +124,10 @@ public class AdminServlet extends BaseServlet{
     }
     public void DeleteOrderByOid(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            response.sendRedirect("admin_login.jsp");
+        }
         Integer oid = Integer.valueOf(request.getParameter("oid"));
         adminService.DeleteOrderByOid(oid);
         String index = request.getParameter("index");
@@ -128,6 +136,8 @@ public class AdminServlet extends BaseServlet{
         for(Order i :OrderList){
             osum++;
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"删除订单："+request.getParameter("oid"));
         session.setAttribute("OrderList",OrderList);
         session.setAttribute("osum",osum);
         session.setAttribute("index",index);
@@ -144,12 +154,18 @@ public class AdminServlet extends BaseServlet{
         for(Product i :ProductList){
             psum++;
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"查看商品");
         session.setAttribute("ProductList",ProductList);
         session.setAttribute("psum",psum);
         request.getRequestDispatcher("admin_product.jsp").forward(request,response);
     }
     public void DeleteProductByPid(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
         Integer pid = Integer.valueOf(request.getParameter("Pid"));
         adminService.DeleteProductByPid(pid);
         List<Product> ProductList = adminService.GetAllProduct();
@@ -157,13 +173,15 @@ public class AdminServlet extends BaseServlet{
         for(Product i :ProductList){
             psum++;
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"删除用户："+request.getParameter("uid"));
         session.setAttribute("ProductList",ProductList);
         session.setAttribute("psum",psum);
         request.getRequestDispatcher("admin_product.jsp").forward(request,response);
     }
     public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String ip = (String)session.getAttribute("ip");
+        String ip = (String)session.getAttribute("adminip");
         String intime = (String)session.getAttribute("admin_in");
         Admin admin = (Admin) session.getAttribute("admin");
         session.invalidate();
@@ -185,12 +203,18 @@ public class AdminServlet extends BaseServlet{
         for(Merchant i :MerchantList){
             merchantsum++;
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"查看商户");
         session.setAttribute("MerchantList",MerchantList);
         session.setAttribute("merchantsum",merchantsum);
         request.getRequestDispatcher("admin_merchant.jsp").forward(request,response);
     }
     public void DeleteMerchantByName(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
         Integer mid = Integer.valueOf(request.getParameter("mid"));
         adminService.DeleteMerchantByMid(mid);
         List<Merchant> MerchantList = adminService.GetAllMerchant();
@@ -198,10 +222,133 @@ public class AdminServlet extends BaseServlet{
         for(Merchant i :MerchantList){
             merchantsum++;
         }
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"删除商户："+request.getParameter("mid"));
         session.setAttribute("UserList",MerchantList);
         session.setAttribute("usersum",merchantsum);
         request.getRequestDispatcher("admin_merchant.jsp").forward(request,response);
     }
+    public void NewMerchant(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException,SQLException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
+        String merchantname = request.getParameter("merchantname");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        merchantService.NewMerchant(merchantname,password,name);
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"新建商户："+request.getParameter("merchantname"));
+        request.getRequestDispatcher("admin_index.jsp").forward(request,response);
+    }
 
+    public void Statistics(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException,SQLException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
+        String merchant_turnover = orderService.GetMerchantTurnover();
+        String type_turnover = orderService.GetTypeTurnOver();
+        String merchant_num = orderService.GetMerchantNum();
+        String type_num = orderService.GetTypeNum();
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"查看统计数据");
+        session.setAttribute("merchant_turnover",merchant_turnover);
+        session.setAttribute("type_turnover",type_turnover);
+        session.setAttribute("merchant_num",merchant_num);
+        session.setAttribute("type_num",type_num);
+        request.getRequestDispatcher("admin_statistics.jsp").forward(request,response);
+    }
+    public void TypeAdjust(HttpServletRequest request,HttpServletResponse response) throws SQLException,ServletException,IOException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
+        List<ProductType> producttype= new ArrayList<>();
+        producttype = productTypeService.findall();
+        session.setAttribute("TypeList",producttype);
+        request.getRequestDispatcher("admin_typeadjust.jsp").forward(request,response);
+    }
+    public void DeleteType(HttpServletRequest request,HttpServletResponse response) throws SQLException,IOException,ServletException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            response.sendRedirect("admin_login.jsp");
+        }
+        String type = request.getParameter("Type");
+        productTypeService.DeleteProductType(type);
+        List<ProductType> producttype= new ArrayList<>();
+        producttype = productTypeService.findall();
 
+        String ip = (String)session.getAttribute("adminip");
+        operationService.NewOperation("管理员："+admin.getName(),ip,"删除商品类型："+request.getParameter("type"));
+        session.setAttribute("TypeList",producttype);
+        request.getRequestDispatcher("admin_typeadjust.jsp").forward(request,response);
+    }
+    public void NewType(HttpServletRequest request,HttpServletResponse response) throws SQLException,IOException,ServletException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin)session.getAttribute("admin");
+        if (admin == null) {
+            response.sendRedirect("admin_login.jsp");
+        }
+        String type = request.getParameter("type");
+        Boolean result = productTypeService.NewProductType(type);
+        if (result == true){
+            List<ProductType> producttype= new ArrayList<>();
+            producttype = productTypeService.findall();
+
+            String ip = (String)session.getAttribute("adminip");
+            operationService.NewOperation("管理员："+admin.getName(),ip,"新建商品类型"+request.getParameter("type"));
+            session.setAttribute("TypeList",producttype);
+            request.getRequestDispatcher("admin_typeadjust.jsp").forward(request,response);
+        }
+        else{
+            request.setAttribute("msg","类型已存在");
+            request.getRequestDispatcher("admin_typeadjust.jsp").forward(request,response);
+        }
+    }
+    public void OperationLog(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
+        List<Operation> operationList = operationService.ShowAllOperation();
+        Integer logsum = operationList.size();
+        session.setAttribute("OperationList",operationList);
+        session.setAttribute("logsum",logsum);
+        request.getRequestDispatcher("admin_operation.jsp").forward(request,response);
+    }
+    public void Forecast(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException,SQLException{
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null){
+            request.getRequestDispatcher("admin_login.jsp").forward(request,response);
+        }
+        String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
+        List<Integer> forecast = new ArrayList<>();
+        Integer temp = 0;
+        for (int i = 14;i>0;i--){
+            temp = orderService.GetOrderNum(i);
+            forecast.add(temp);
+            parameter += " " + String.valueOf(temp);
+        }
+        System.out.println(parameter);
+        Process pr = null;
+        try{
+            pr = Runtime.getRuntime().exec(parameter);
+            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            String line = null;
+            while((line = in.readLine())!=null){
+                forecast.add(Integer.valueOf(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        session.setAttribute("forecast",forecast);
+        request.getRequestDispatcher("admin_forecast.jsp").forward(request,response);
+    }
 }

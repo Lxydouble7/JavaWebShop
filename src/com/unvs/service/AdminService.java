@@ -4,6 +4,7 @@ import com.unvs.dao.*;
 import com.unvs.entity.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminService {
@@ -16,7 +17,15 @@ public class AdminService {
         return dao.login(name,password);
     }
     public List<User> GetAllUser() throws SQLException {
-        return userDao.showall();
+        List<User> result =  new ArrayList<>();
+        List<User> temp = userDao.showall();
+        String abstruct =null;
+        int index = 0;
+        for(User i : temp){
+            result.add(new User(i.getUid(),i.getUsername(),i.getPassword(),i.getName(),i.getEmail(),i.getTelephone(),i.getBirthday(),i.getGender(),i.getAddress(),userDao.GetAbstruct(i.getUid())));
+        }
+        return result;
+
     }
     public void DeleteUserByUid(Integer uid) throws SQLException{
         userDao.DeleteUserByUid(uid);

@@ -25,10 +25,10 @@
         </div>
         <div class="modal-body">
             <div class="register-form">
-                <form enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/admin?method=NewMerchant">
+                <form method="post" action="${pageContext.request.contextPath}/admin?method=NewMerchant">
                     <div class="fields-grid">
                         <div class="styled-input">
-                            <input type="text" placeholder="商户账号" name="username" required="">
+                            <input type="text" placeholder="商户账号" name="merchantname" required="">
                         </div>
                         <div class="styled-input">
                             <input type="password" placeholder="密码" name="password" required="">

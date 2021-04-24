@@ -14,6 +14,32 @@ public class Order {
     private String pay;
     private String email;
     private String merchant;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Order(Integer oid, Integer uid, String uname, String address, String telephone, Integer pid, String pname, String number, Double total_price, String time, String pay, String email, String merchant, String type) {
+        this.oid = oid;
+        this.uid = uid;
+        this.uname = uname;
+        this.address = address;
+        this.telephone = telephone;
+        this.pid = pid;
+        this.pname = pname;
+        this.number = number;
+        this.total_price = total_price;
+        this.time = time;
+        this.pay = pay;
+        this.email = email;
+        this.merchant = merchant;
+        this.type = type;
+    }
 
     public Order(Integer oid, Integer uid, String uname, String address, String telephone, Integer pid, String pname, String number, Double total_price, String time, String pay, String email, String merchant) {
         this.oid = oid;

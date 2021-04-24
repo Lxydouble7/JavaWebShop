@@ -43,4 +43,8 @@ public class UserService {
     public void timeset(String username,String ip,String in,String out){
         dao.timeset(username,ip,in,out);
     }
+    public void ViewRecord(Integer Uid,Integer Pid,String type,String start1,String end1,String minus){
+        dao.ViewRecord(Uid,Pid,type,start1,end1,minus);
+    }
+
 }

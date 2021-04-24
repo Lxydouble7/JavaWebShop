@@ -2,6 +2,9 @@ package com.unvs.dao;
 import com.unvs.entity.User;
 import java.sql.SQLException;
 import com.unvs.utils.JDBCTools;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -135,5 +138,47 @@ public class UserDao {
         } finally {
             JDBCTools.release(connection,preparedStatement,resultSet);
         }
+    }
+    public void ViewRecord(Integer uid,Integer pid,String type,String start,String end,String minus){
+        Connection connection = JDBCTools.getConnection();
+        String sql = "INSERT INTO `eshop`.`viewrecord` (`uid`, `pid`, `type`, `start`, `end`, `minus`) VALUES (?,?,?,?,?,?);";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,uid);
+            statement.setInt(2,pid);
+            statement.setString(3, type);
+            statement.setString(4, start);
+            statement.setString(5, end);
+            statement.setString(6, minus);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+    }
+
+    public String GetAbstruct(Integer uid) throws SQLException{
+        Connection connection = JDBCTools.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT type,count(*) as t FROM eshop.viewrecord where uid = ? group by type order by t desc;";
+        String abstruct = "";
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,uid);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                abstruct = abstruct + " " + resultSet.getString(1);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return abstruct;
     }
 }

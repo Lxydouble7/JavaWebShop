@@ -3,8 +3,10 @@ package com.unvs.controller;
 import com.unvs.entity.Cart;
 import com.unvs.entity.Merchant;
 import com.unvs.entity.Product;
+import com.unvs.entity.User;
 import com.unvs.service.MerchantService;
 import com.unvs.service.ProductService;
+import com.unvs.service.ProductTypeService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -20,12 +22,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/product")
 public class ProductServlet extends BaseServlet{
     private ProductService service = new ProductService();
-
+    private ProductTypeService productTypeService = new ProductTypeService();
     public void ViewAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
         HttpSession session = request.getSession();
         List<Product> list = service.findall();
@@ -34,6 +38,16 @@ public class ProductServlet extends BaseServlet{
     }
     public void ViewDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException,SQLException,IOException{
         HttpSession session = request.getSession();
+        User temp = (User)session.getAttribute("user");
+
+        if(temp != null){
+            Instant start = Instant.now();
+            session.setAttribute("begin_view",start);
+            SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
+            System.out.println(strsystime);
+            session.setAttribute("begin_view1",strsystime);
+        }
         int pid = Integer.parseInt(request.getParameter("pid"));
         Product product = service.FindOne(pid);
         session.setAttribute("product",product);
@@ -107,6 +121,16 @@ public class ProductServlet extends BaseServlet{
         session.setAttribute("ProductList",ProductList);
         session.setAttribute("psum",psum);
         request.getRequestDispatcher("merchant_product.jsp").forward(request,response);
+    }
+    public void Recommend(HttpServletRequest request, HttpServletResponse response) throws SQLException,ServletException,IOException{
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
+        List<Product> recommend = service.recommend(user.getUid());
+        session.setAttribute("recommend",recommend);
+        request.getRequestDispatcher("recommend.jsp").forward(request,response);
     }
 
 }

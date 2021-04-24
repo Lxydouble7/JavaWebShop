@@ -2,6 +2,7 @@ package com.unvs.controller;
 
 import com.unvs.entity.*;
 import com.unvs.service.MerchantService;
+import com.unvs.service.OperationService;
 import com.unvs.service.ProductService;
 import com.unvs.service.ProductTypeService;
 import org.apache.commons.fileupload.FileItem;
@@ -27,6 +28,7 @@ import java.util.List;
 public class MerchantServlet extends BaseServlet{
     private  MerchantService merchantService = new MerchantService();
     private ProductTypeService productTypeService = new ProductTypeService();
+    private OperationService operationService = new OperationService();
     public void MerchantLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session =request.getSession();
         String username = request.getParameter("name");
@@ -47,7 +49,7 @@ public class MerchantServlet extends BaseServlet{
         if (merchant != null){
             List<ProductType> producttype= new ArrayList<>();
             producttype = productTypeService.findall();
-            session.setAttribute("ip",ip);
+            session.setAttribute("merchantip",ip);
             session.setAttribute("merchant_in",strsystime);
             session.setAttribute("merchant",merchant);
             session.setAttribute("ProductTypeList",producttype);
@@ -60,7 +62,7 @@ public class MerchantServlet extends BaseServlet{
     }
     public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String ip = (String)session.getAttribute("ip");
+        String ip = (String)session.getAttribute("merchantip");
         String intime = (String)session.getAttribute("merchant_in");
         Merchant merchant = (Merchant) session.getAttribute("merchant");
         session.invalidate();
@@ -75,6 +77,8 @@ public class MerchantServlet extends BaseServlet{
         if (merchant == null) {
             response.sendRedirect("merchant_login.jsp");
         }
+        String ip = (String)session.getAttribute("merchantip");
+        operationService.NewOperation("商户："+merchant.getName(),ip,"查看订单");
         List<Order> OrderList = merchantService.GetAllOrder(merchant.getName());
         int osum = 0;
         for(Order i :OrderList){
@@ -91,6 +95,8 @@ public class MerchantServlet extends BaseServlet{
         if (merchant == null) {
             response.sendRedirect("merchant_login.jsp");
         }
+        String ip = (String)session.getAttribute("merchantip");
+        operationService.NewOperation("商户："+merchant.getName(),ip,"删除订单："+request.getParameter("oid"));
         Integer oid = Integer.valueOf(request.getParameter("oid"));
         merchantService.DeleteOrderByOid(oid);
         List<Order> OrderList = merchantService.GetAllOrder(merchant.getName());
@@ -158,6 +164,8 @@ public class MerchantServlet extends BaseServlet{
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
+        String ip = (String)session.getAttribute("merchantip");
+        operationService.NewOperation("商户："+merchant.getName(),ip,"新建商品："+pname);
         merchantService.NewProduct(pname,price,image,image1,image2,type,intro,stock,description);
         request.getRequestDispatcher("admin_index.jsp").forward(request,response);
     }
@@ -173,6 +181,8 @@ public class MerchantServlet extends BaseServlet{
         for(Product i :ProductList){
             psum++;
         }
+        String ip = (String)session.getAttribute("merchantip");
+        operationService.NewOperation("商户："+merchant.getName(),ip,"查看商品");
         session.setAttribute("ProductList",ProductList);
         session.setAttribute("psum",psum);
         request.getRequestDispatcher("merchant_product.jsp").forward(request,response);
@@ -182,20 +192,12 @@ public class MerchantServlet extends BaseServlet{
         HttpSession session = request.getSession();
         Merchant merchant = (Merchant)session.getAttribute("merchant");
         Integer pid = Integer.valueOf(request.getParameter("Pid"));
-        System.out.println("!!!!!!!!!!");
-        System.out.println(pid);
         ProductService service = new ProductService();
         Product product = service.FindOne(pid);
         session.setAttribute("product",product);
+        String ip = (String)session.getAttribute("merchantip");
+        operationService.NewOperation("商户："+merchant.getName(),ip,"修改商品："+request.getParameter("Pid"));
         request.getRequestDispatcher("AlterProduct.jsp").forward(request,response);
-//        merchantService.AlterProductByPid(pid);
-//        List<Product> ProductList = merchantService.GetYourProduct(merchant.getName());
-//        int psum = 0;
-//        for(Product i :ProductList){
-//            psum++;
-//        }
-//        session.setAttribute("ProductList",ProductList);
-//        session.setAttribute("psum",psum);
-//        request.getRequestDispatcher("admin_product.jsp").forward(request,response);
+
     }
 }

@@ -144,5 +144,73 @@ public class ProductDao {
         }
         return list;
     }
+    public List<Product> GetRecommend(Integer uid){
+        Connection connection = JDBCTools.getConnection();
+        String sql = "SELECT distinct pid FROM eshop.viewrecord where uid = ? order by id desc limit 6;";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Product product = null;
+        List<Product> list = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,String.valueOf(uid));
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                temp.add(resultSet.getInt(1));
+            }
+            for(Integer i:temp){
+                sql = "select * from eshop.product where pid = ?;";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1,String.valueOf(i));
+                resultSet = statement.executeQuery();
+                while (resultSet.next()){
+                    list.add(new Product(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),
+                            resultSet.getString(4),resultSet.getString(5),resultSet.getString(6),
+                            resultSet.getString(7),resultSet.getString(8),resultSet.getInt(9),
+                            resultSet.getString(10),resultSet.getString(11)));
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally{
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return list;
+    }
+
+    public List<Product> GetPopular(){
+        Connection connection = JDBCTools.getConnection();
+        String sql = "SELECT pid,count(*) as t FROM eshop.order group by pid order by t desc limit 6;";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Product product = null;
+        List<Product> list = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                temp.add(resultSet.getInt(1));
+            }
+            for(Integer i:temp){
+                sql = "select * from eshop.product where pid = ?;";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1,String.valueOf(i));
+                resultSet = statement.executeQuery();
+                while (resultSet.next()){
+                    list.add(new Product(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),
+                            resultSet.getString(4),resultSet.getString(5),resultSet.getString(6),
+                            resultSet.getString(7),resultSet.getString(8),resultSet.getInt(9),
+                            resultSet.getString(10),resultSet.getString(11)));
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally{
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return list;
+    }
 
 }

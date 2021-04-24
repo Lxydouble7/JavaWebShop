@@ -13,6 +13,40 @@ public class User {
     private String birthday;    //生日
     private String gender;       //性别
     private String address;   //地址
+    private String abstruct;  //客户画像
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAbstruct() {
+        return abstruct;
+    }
+
+    public void setAbstruct(String abstruct) {
+        this.abstruct = abstruct;
+    }
+
+    public User(Integer uid, String username, String password, String name, String email, String telephone, String birthday, String gender, String address, String abstruct) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.telephone = telephone;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.abstruct = abstruct;
+    }
 
     public User() {
     }

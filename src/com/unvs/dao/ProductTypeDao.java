@@ -63,4 +63,24 @@ public class ProductTypeDao {
             JDBCTools.release(connection,statement,resultSet);
         }
     }
+    public Boolean CheckProductType(String type) throws SQLException{
+        Connection connection = JDBCTools.getConnection();
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Boolean result = true;
+        String sql = "SELECT * FROM eshop.producttype where type = ?;";
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,type);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = false;
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
 }

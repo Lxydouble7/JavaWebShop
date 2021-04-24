@@ -55,6 +55,12 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllOrder" class="nav-link">订单信息</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=Statistics" class="nav-link">统计信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -68,7 +74,7 @@
 <%--    <a href="NewProduct.jsp" class="btn btn-primary"  data-target="#exampleModal-two" style="margin-left: 250px">--%>
 <%--        新增商品--%>
 <%--    </a>--%>
-    <a href="AdjustProductType.jsp" class="btn btn-primary"  data-target="#exampleModal-two" style="margin-left: 250px">
+    <a href="${pageContext.request.contextPath}/admin?method=TypeAdjust" class="btn btn-primary"  data-target="#exampleModal-two" style="margin-left: 250px">
         商品类别管理
     </a>
 

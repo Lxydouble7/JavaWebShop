@@ -81,13 +81,9 @@ public class OrderDao {
         return result;
     }
     public List<Order> ShowAllOrder(String index) throws SQLException{
-        String sql = null;
-        if (index == null){
-            sql = "SELECT * FROM eshop.order;";
-        }
-        else {
+        String sql = "SELECT * FROM eshop.order;";
+        if (index != null && index.equals("全部")){
             sql = "SELECT * FROM eshop.order where pname in (select pname from eshop.product where type =\"" + index +"\");";
-            System.out.println(sql);
         }
 
         ResultSet resultSet = null;
@@ -123,5 +119,107 @@ public class OrderDao {
         } finally {
             JDBCTools.release(connection,statement,resultSet);
         }
+    }
+
+    public String GetMerchantTurnover(){
+        String sql = "SELECT SUM(order.total_price),merchant FROM eshop.order Group By merchant;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        String result = "data:[";
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = result + "{value:"+ String.valueOf(resultSet.getDouble(1))+", name: \"" + resultSet.getString(2) +"\"},";
+                }
+            result = result + "]";
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
+    public String GetTypeTurnover(){
+        String sql = "SELECT SUM(order.total_price),type FROM eshop.order Group By type;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        String result = "data:[";
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = result + "{value:"+ String.valueOf(resultSet.getDouble(1))+", name: \"" + resultSet.getString(2) +"\"},";
+            }
+            result = result + "]";
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
+    public String GetMerchantNum(){
+        String sql = "SELECT count(*),merchant FROM eshop.order Group By merchant;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        String result = "data:[";
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = result + "{value:"+ String.valueOf(resultSet.getDouble(1))+", name: \"" + resultSet.getString(2) +"\"},";
+            }
+            result = result + "]";
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
+    public String GetTypeNum(){
+        String sql = "SELECT count(*),type FROM eshop.order Group By type;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        String result = "data:[";
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = result + "{value:"+ String.valueOf(resultSet.getDouble(1))+", name: \"" + resultSet.getString(2) +"\"},";
+            }
+            result = result + "]";
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
+
+    public Integer GetOrderNum(Integer date){
+        String sql = "SELECT count(*),order.time FROM eshop.order WHERE TO_DAYS( NOW( ) ) - TO_DAYS( order.time) = ? group by order.time order by order.time;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Integer result = 0;
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,date);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result = resultSet.getInt(1);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
     }
 }

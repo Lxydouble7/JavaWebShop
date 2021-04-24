@@ -14,4 +14,17 @@ public class OrderService {
     public List<Order> QueryOrderByUid(Integer uid)throws SQLException{
         return orderDao.QueryOrderByUid(uid);
     }
+    public String GetMerchantTurnover(){
+        return orderDao.GetMerchantTurnover();
+    }
+    public String GetTypeTurnOver(){
+        return orderDao.GetTypeTurnover();
+    }
+    public String GetMerchantNum(){
+        return orderDao.GetMerchantNum();
+    }
+    public String GetTypeNum(){
+        return orderDao.GetTypeNum();
+    }
+    public Integer GetOrderNum(Integer i){return orderDao.GetOrderNum(i);}
 }

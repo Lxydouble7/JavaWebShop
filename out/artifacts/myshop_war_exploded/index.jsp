@@ -45,8 +45,12 @@
             <a href="${pageContext.request.contextPath}/cart?method=CheckOut" class="nav-link">购物车</a>
           </li>
           <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/product?method=Recommend" class="nav-link">猜你喜欢</a>
+          </li>
+          <li class="nav-item">
             <a href="${pageContext.request.contextPath}/order?method=ShowMyOrder" class="nav-link">订单</a>
           </li>
+
         </ul>
       </div>
     </nav>

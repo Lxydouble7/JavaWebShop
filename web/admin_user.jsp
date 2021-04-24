@@ -56,6 +56,12 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllOrder" class="nav-link">订单信息</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=Statistics" class="nav-link">统计信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -83,6 +89,7 @@
                             <th>性别</th>
                             <th>地址</th>
                             <th>删除</th>
+                            <th>用户画像</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -99,6 +106,7 @@
                                 <td class="invert">
                                     <a style="color: mediumslateblue"href="${pageContext.request.contextPath}/admin?method=DeleteUserByUid&uid=${user.uid}">删除</a>
                                 </td>
+                                <td class="invert">${user.abstruct}</td>
                             </tr>
                         </c:forEach>
                         </tbody>

@@ -38,4 +38,7 @@ public class MerchantService {
     public void timeset(String username,String ip,String in,String out){
         merchantDao.timeset(username,ip,in,out);
     }
+    public void NewMerchant(String merchantname,String password,String name) throws SQLException{
+        merchantDao.NewMerchant(merchantname,password,name);
+    }
 }

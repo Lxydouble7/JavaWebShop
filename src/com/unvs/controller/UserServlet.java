@@ -1,6 +1,7 @@
 package com.unvs.controller;
 
 import com.unvs.controller.BaseServlet;
+import com.unvs.entity.Product;
 import com.unvs.entity.User;
 import com.unvs.service.UserService;
 
@@ -10,9 +11,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/user")
 public class UserServlet extends BaseServlet {
@@ -36,7 +41,7 @@ public class UserServlet extends BaseServlet {
         SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
         if (user != null){
-            session.setAttribute("ip",ip);
+            session.setAttribute("userip",ip);
             session.setAttribute("user_in",strsystime);
             session.setAttribute("user",user);
             response.sendRedirect("index.jsp");
@@ -49,7 +54,7 @@ public class UserServlet extends BaseServlet {
 
     public void logout(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String ip = (String)session.getAttribute("ip");
+        String ip = (String)session.getAttribute("userip");
         String intime = (String)session.getAttribute("user_in");
         User user = (User) session.getAttribute("user");
         session.invalidate();
@@ -89,11 +94,25 @@ public class UserServlet extends BaseServlet {
         }
     }
     public void ViewUserDetail(HttpServletRequest request,HttpServletResponse response) throws SQLException,IOException,ServletException{
-        HttpSession session = request.getSession();
         User user = (User)request.getAttribute("user");
         if (user == null){
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }
         request.getRequestDispatcher("user_detail.jsp").forward(request,response);
     }
+    public void GetBack(HttpServletRequest request,HttpServletResponse response) throws  SQLException,IOException,ServletException{
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Instant start = (Instant) session.getAttribute("begin_view");
+        Instant end = Instant.now();
+        String minus = String.valueOf(Duration.between(start, end).getSeconds());
+        String start1 = (String)session.getAttribute("begin_view1");
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String end1 = sf.format(System.currentTimeMillis());//系统当前时间
+        Product product = (Product) session.getAttribute("product");
+        service.ViewRecord(user.getUid(),product.getPid(),product.getType(),start1,end1,minus);
+        request.getRequestDispatcher("shop.jsp").forward(request,response);
+    }
+
+
 }
