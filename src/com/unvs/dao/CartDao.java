@@ -57,7 +57,7 @@ public class CartDao {
         }
     }
     public void InsertIntoCart(Cart cart) throws SQLException {
-        String sql="INSERT INTO `eshop`.`cart` (`uid`, `pid`, `number`, `total_price`) VALUES (?,?,?,?)";
+        String sql="INSERT INTO `eshop`.`cart` (`uid`, `pid`, `number`, `total_price`,`type`,`merchant`) VALUES (?,?,?,?,?,?)";
         Connection connection = JDBCTools.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -67,6 +67,8 @@ public class CartDao {
             statement.setString(2,Integer.toString(cart.getPid()));
             statement.setString(3,Integer.toString(cart.getNumber()));
             statement.setDouble(4,cart.getTotal_price());
+            statement.setString(5,cart.getType());
+            statement.setString(6, cart.getMerchant());
             statement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
@@ -86,7 +88,7 @@ public class CartDao {
             statement.setInt(1,uid);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
-                PidList.add(new Cart(resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(4),resultSet.getDouble(5)));
+                PidList.add(new Cart(resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(4),resultSet.getDouble(5),resultSet.getString(6),resultSet.getString(7)));
                 //PidList.add(resultSet.getInt(1));
             }
         } catch (SQLException e){

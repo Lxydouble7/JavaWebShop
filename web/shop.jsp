@@ -105,6 +105,8 @@
                                                     <input type="hidden" name="pid" value="${product.pid}">
                                                     <input type="hidden" name="number" value="1">
                                                     <input type="hidden" name="total_price" value="${product.price}">
+                                                    <input type="hidden" name="type" value="${product.type}">
+                                                    <input type="hidden" name="merchant" value="${product.merchant}">
 <%--                                                    <input type="hidden" name="uid" value="">--%>
                                                     <button type="submit" class="toys-cart ptoys-cart">
                                                         <i class="fas fa-cart-plus"></i>

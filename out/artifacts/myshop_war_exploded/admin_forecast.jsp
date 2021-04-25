@@ -1,10 +1,11 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 86438
-  Date: 2020/11/16
-  Time: 12:53
+  User: UNVS
+  Date: 2021/4/25
+  Time: 19:21
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="zxx">
@@ -71,13 +72,13 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=ShowAllOrder" class="nav-link">订单信息</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=Statistics" class="nav-link">统计信息</a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a href="${pageContext.request.contextPath}/admin?method=Forecast" class="nav-link">销量走势和预测</a>
                     </li>
                 </ul>
@@ -89,7 +90,7 @@
 </div>
 
 
-
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="main2" style="width: 1500px;height:450px;margin-top: 20px;">
     <a></a>
 </div>
@@ -162,142 +163,6 @@
                         xAxis: '21:15'
                     }] ]
                 }
-            }
-        ]
-    };
-
-    option && myChart.setOption(option);
-
-
-</script>
-
-
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 1500px;height:450px;">
-    <a>商户销售金额</a>
-</div>
-<script type="text/javascript">
-
-    var chartDom = document.getElementById('main');
-    var myChart = echarts.init(chartDom);
-    var option;
-
-    option = {
-        title: {
-            text: '销售金额统计',
-            subtext: '商户、种类',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
-            left: 'center',
-            top: 'bottom',
-            // data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: {show: true},
-                dataView: {show: true, readOnly: false},
-                restore: {show: true},
-                saveAsImage: {show: true}
-            }
-        },
-        series: [
-            {
-                name: '商户销售金额',
-                type: 'pie',
-                radius: [20, 140],
-                center: ['25%', '50%'],
-                roseType: 'area',
-                itemStyle: {
-                    borderRadius: 5
-                },
-                ${merchant_turnover}
-            },
-            {
-                name: '种类销售金额',
-                type: 'pie',
-                radius: [20, 140],
-                center: ['75%', '50%'],
-                roseType: 'area',
-                itemStyle: {
-                    borderRadius: 5
-                },
-                ${type_turnover}
-            }
-        ]
-    };
-
-    option && myChart.setOption(option);
-
-
-
-
-
-</script>
-
-
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main1" style="width: 1500px;height:450px;margin-top: 20px;">
-    <a>商户销售金额</a>
-</div>
-<script type="text/javascript">
-
-
-    var chartDom = document.getElementById('main1');
-    var myChart = echarts.init(chartDom);
-    var option;
-
-    option = {
-        title: {
-            text: '销售数量统计',
-            subtext: '商户、种类',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
-            left: 'center',
-            top: 'bottom',
-            // data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: {show: true},
-                dataView: {show: true, readOnly: false},
-                restore: {show: true},
-                saveAsImage: {show: true}
-            }
-        },
-        series: [
-            {
-                name: '商户销售数量',
-                type: 'pie',
-                radius: [20, 140],
-                center: ['25%', '50%'],
-                roseType: 'area',
-                itemStyle: {
-                    borderRadius: 5
-                },
-                ${merchant_num}
-            },
-            {
-                name: '种类销售数量',
-                type: 'pie',
-                radius: [20, 140],
-                center: ['75%', '50%'],
-                roseType: 'area',
-                itemStyle: {
-                    borderRadius: 5
-                },
-                ${type_num}
             }
         ]
     };

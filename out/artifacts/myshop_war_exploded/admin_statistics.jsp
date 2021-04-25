@@ -77,6 +77,9 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin?method=Forecast" class="nav-link">销量走势和预测</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -84,6 +87,91 @@
 </div>
 <div class="inner_page-banner one-img">
 </div>
+
+
+
+<div id="main2" style="width: 1500px;height:450px;margin-top: 20px;">
+    <a></a>
+</div>
+<script type="text/javascript">
+
+
+    var chartDom = document.getElementById('main2');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: '销量走势和预测',
+            // subtext: '纯属虚构'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            ${data_date}
+            // data: ['00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30', '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15', '17:30', '18:45', '20:00', '21:15', '22:30', '23:45']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} '
+            },
+            axisPointer: {
+                snap: true
+            }
+        },
+        visualMap: {
+            show: false,
+            dimension: 0,
+            pieces: [{
+                lte: 13,
+                color: 'green'
+            }, {
+                gt: 13,
+                lte: 17,
+                color: 'red'
+            }, ]
+        },
+        series: [
+            {
+                name: '销量',
+                type: 'line',
+                smooth: true,
+                // data: [135, 127, 148, 159, 137, 150, 172, 157, 184, 203, 179, 194, 228, 189, 219, 227, 236],
+                ${data_sell}
+                markArea: {
+                    itemStyle: {
+                        color: 'rgba(255, 173, 177, 0.4)'
+                    },
+                    data: [  [{
+                        name: '未来三天',
+                        xAxis: '17:30'
+                    }, {
+                        xAxis: '21:15'
+                    }] ]
+                }
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+
+</script>
+
+
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="main" style="width: 1500px;height:450px;">
     <a>商户销售金额</a>

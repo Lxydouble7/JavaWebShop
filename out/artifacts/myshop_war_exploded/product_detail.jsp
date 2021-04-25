@@ -85,6 +85,8 @@
                                 <h5>数量 :</h5>
                                 <input type="number" step="1" min="1" max="100" value="1" name="number"/>
                                 <input type="hidden" name="total_price" value="${product.price}">
+                                <input type="hidden" name="type" value="${product.type}">
+                                <input type="hidden" name="merchant" value="${product.merchant}">
                                 <button type="submit" class="toys-cart ptoys-cart add">
                                     加入购物车
                                 </button>

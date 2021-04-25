@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao {
-    public boolean NewOrder(Integer uid,String uname,String address,String telephone,Integer pid,String pname,Integer number,Double total_price,String time,String pay,String email)throws SQLException{
-        String sql = "INSERT INTO `eshop`.`order` (`uid`, `uname`, `address`, `telephone`, `pid`, `pname`, `number`, `total_price`, `time`, `pay`,`email`) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+    public boolean NewOrder(Integer uid,String uname,String address,String telephone,Integer pid,String pname,Integer number,Double total_price,String time,String pay,String email,String type,String merchant)throws SQLException{
+        String sql = "INSERT INTO `eshop`.`order` (`uid`, `uname`, `address`, `telephone`, `pid`, `pname`, `number`, `total_price`, `time`, `pay`,`email`,`type`,`merchant`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement statement = null;
         Connection connection = JDBCTools.getConnection();
         ResultSet resultSet = null;
@@ -27,6 +27,8 @@ public class OrderDao {
             statement.setString(9,time);
             statement.setString(10,pay);
             statement.setString(11,email);
+            statement.setString(12,type);
+            statement.setString(13,merchant);
             statement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
@@ -214,6 +216,28 @@ public class OrderDao {
             resultSet = statement.executeQuery();
             while(resultSet.next()){
                 result = resultSet.getInt(1);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            JDBCTools.release(connection,statement,resultSet);
+        }
+        return result;
+    }
+
+    public List<Order> Warning() throws SQLException{
+        String sql = "SELECT * FROM eshop.order where number >10;";
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        List<Order> result = new ArrayList<>();
+        Connection connection = JDBCTools.getConnection();
+        try{
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                result.add(new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getString(3),resultSet.getString(4),
+                        resultSet.getString(5),resultSet.getInt(6),resultSet.getString(7),resultSet.getString(8),
+                        resultSet.getDouble(9),resultSet.getString(10),resultSet.getString(11),resultSet.getString(12)));
             }
         } catch (SQLException e){
             e.printStackTrace();

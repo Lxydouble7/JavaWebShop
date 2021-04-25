@@ -19,6 +19,7 @@ import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/admin")
@@ -249,6 +250,45 @@ public class AdminServlet extends BaseServlet{
         if (admin == null) {
             request.getRequestDispatcher("admin_login.jsp").forward(request,response);
         }
+        String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
+        List<Integer> forecast = new ArrayList<>();
+        Integer temp = 0;
+        for (int i = 14;i>0;i--){
+            temp = orderService.GetOrderNum(i);
+            forecast.add(temp);
+            parameter += " " + String.valueOf(temp);
+        }
+        Process pr = null;
+        try{
+            pr = Runtime.getRuntime().exec(parameter);
+            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            String line = null;
+            while((line = in.readLine())!=null){
+                forecast.add(Integer.valueOf(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String data_sell = "data:[";
+        for (Integer i : forecast){
+            data_sell += String.valueOf(i) + ",";
+        }
+        data_sell += "],";
+        String data_date = "data:[";
+        Calendar now = Calendar.getInstance();
+        data_date = "\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'";
+        for (int i =0; i<14;i++){
+            now.add(Calendar.DAY_OF_YEAR, -1);
+            data_date = "\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'," + data_date ;
+        }
+        now = Calendar.getInstance();
+        for (int i = 0;i<2;i++){
+            now.add(Calendar.DAY_OF_YEAR, 1);
+            data_date = data_date+ ",\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'";
+        }
+        data_date = "data:[" + data_date + "],";
+        session.setAttribute("data_sell",data_sell);
+        session.setAttribute("data_date",data_date);
         String merchant_turnover = orderService.GetMerchantTurnover();
         String type_turnover = orderService.GetTypeTurnOver();
         String merchant_num = orderService.GetMerchantNum();
@@ -322,33 +362,16 @@ public class AdminServlet extends BaseServlet{
         session.setAttribute("logsum",logsum);
         request.getRequestDispatcher("admin_operation.jsp").forward(request,response);
     }
-    public void Forecast(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException,SQLException{
+    public void Warning(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException,SQLException{
         HttpSession session = request.getSession();
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin == null){
             request.getRequestDispatcher("admin_login.jsp").forward(request,response);
         }
-        String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
-        List<Integer> forecast = new ArrayList<>();
-        Integer temp = 0;
-        for (int i = 14;i>0;i--){
-            temp = orderService.GetOrderNum(i);
-            forecast.add(temp);
-            parameter += " " + String.valueOf(temp);
-        }
-        System.out.println(parameter);
-        Process pr = null;
-        try{
-            pr = Runtime.getRuntime().exec(parameter);
-            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            String line = null;
-            while((line = in.readLine())!=null){
-                forecast.add(Integer.valueOf(line));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        session.setAttribute("forecast",forecast);
-        request.getRequestDispatcher("admin_forecast.jsp").forward(request,response);
+        List<Order> warningList = orderService.Warning();
+        Integer warningsum = warningList.size();
+        session.setAttribute("WarningList",warningList);
+        session.setAttribute("logsum",warningsum);
+        request.getRequestDispatcher("admin_warning.jsp").forward(request,response);
     }
 }

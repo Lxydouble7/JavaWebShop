@@ -28,7 +28,9 @@ public class CartServlet extends BaseServlet{
         Integer uid = user.getUid();
         Integer number = Integer.parseInt(request.getParameter("number"));
         Double price = Double.valueOf(request.getParameter("total_price"));
-        service.AddCart(uid,pid,number,price);
+        String type = request.getParameter("type");
+        String merchant = request.getParameter("merchant");
+        service.AddCart(uid,pid,number,price,type,merchant);
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }
     public void CheckOut(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException,SQLException{

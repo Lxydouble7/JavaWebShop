@@ -12,9 +12,9 @@ import java.util.List;
 public class CartService {
     private CartDao cartDao = new CartDao();
     private ProductDao productDao = new ProductDao();
-    public boolean AddCart(Integer uid, Integer pid, Integer number, Double price) throws SQLException {
+    public boolean AddCart(Integer uid, Integer pid, Integer number, Double price,String type,String merchant) throws SQLException {
         if (cartDao.QueryCartByUidPid(uid,pid)==null) {
-            Cart cart = new Cart(uid, pid, number, number*price);
+            Cart cart = new Cart(uid, pid, number, number*price,type,merchant);
             cartDao.InsertIntoCart(cart);
         }
         else{
@@ -30,7 +30,7 @@ public class CartService {
             ProductList.add(productDao.QueryProductByPid(i.getPid()));
         }
         for (int i=0;i< PidList.size();i++){
-            CartList.add(new Cart(PidList.get(i).getUid(),PidList.get(i).getPid(),PidList.get(i).getNumber(),PidList.get(i).getTotal_price(),ProductList.get(i)));
+            CartList.add(new Cart(PidList.get(i).getUid(),PidList.get(i).getPid(),PidList.get(i).getNumber(),PidList.get(i).getTotal_price(),ProductList.get(i),PidList.get(i).getType(),PidList.get(i).getMerchant()));
         }
         return CartList;
     }

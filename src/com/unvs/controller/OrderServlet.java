@@ -43,7 +43,10 @@ public class OrderServlet extends BaseServlet{
             Product product = (Product)productService.FindOne(i.getPid());
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             String dateTime = df.format(date); // Formats a Date into a date/time string.
-            service.NewOrder(user.getUid(),uname,address,telephone,i.getPid(),product.getPname(),i.getNumber(),i.getTotal_price(),dateTime,pay,email);
+            System.out.println(i.getType());
+            System.out.println(i.getMerchant());
+            System.out.println("!!!");
+            service.NewOrder(user.getUid(),uname,address,telephone,i.getPid(),product.getPname(),i.getNumber(),i.getTotal_price(),dateTime,pay,email,i.getType(),i.getMerchant());
         }
         //删除购物车
         for(Cart i:CartList){

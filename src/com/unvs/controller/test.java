@@ -3,19 +3,29 @@ package com.unvs.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class test {
-    public static void main(String[] args) {
-        Process pr = null;
-        try{
-            pr = Runtime.getRuntime().exec("python C:\\Users\\UNVS\\Desktop\\test\\try.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14");
-            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            String line = null;
-            while((line = in.readLine())!=null){
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void main(String[] args) throws ParseException {
+        String data_date = "data:[";
+        Calendar now = Calendar.getInstance();
+        String tdate = "\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'";
+        for (int i =0; i<13;i++){
+            now.add(Calendar.DAY_OF_YEAR, -1);
+            tdate = "\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'," + tdate ;
         }
+        now = Calendar.getInstance();
+        for (int i = 0;i<3;i++){
+            now.add(Calendar.DAY_OF_YEAR, 1);
+            tdate = tdate+ ",\'" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH) +"\'";
+        }
+        System.out.println(tdate);
+        tdate = "data:[" + tdate + "],";
+        System.out.println(tdate);
+
+
     }
 }
