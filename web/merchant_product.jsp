@@ -44,9 +44,9 @@
                             }
                         %>
                     </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/merchant?method=MerchantDetail" class="nav-link">商铺信息</a>
-                    </li>
+<%--                    <li class="nav-item">--%>
+<%--                        <a href="${pageContext.request.contextPath}/merchant?method=MerchantDetail" class="nav-link">商铺信息</a>--%>
+<%--                    </li>--%>
                     <li class="nav-item active">
                         <a href="${pageContext.request.contextPath}/merchant?method=ShowYourProduct" class="nav-link">商品信息</a>
                     </li>

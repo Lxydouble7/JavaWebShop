@@ -110,7 +110,12 @@ public class UserServlet extends BaseServlet {
         SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String end1 = sf.format(System.currentTimeMillis());//系统当前时间
         Product product = (Product) session.getAttribute("product");
-        service.ViewRecord(user.getUid(),product.getPid(),product.getType(),start1,end1,minus);
+        if (user != null){
+            service.ViewRecord(user.getUid(),product.getPid(),product.getType(),start1,end1,minus);
+        }
+       else{
+            service.ViewRecord(0,product.getPid(),product.getType(),start1,end1,minus);
+        }
         request.getRequestDispatcher("shop.jsp").forward(request,response);
     }
 

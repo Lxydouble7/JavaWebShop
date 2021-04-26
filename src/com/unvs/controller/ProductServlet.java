@@ -39,15 +39,19 @@ public class ProductServlet extends BaseServlet{
     public void ViewDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException,SQLException,IOException{
         HttpSession session = request.getSession();
         User temp = (User)session.getAttribute("user");
+        Instant start = Instant.now();
+        session.setAttribute("begin_view",start);
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
+        session.setAttribute("begin_view1",strsystime);
 
-        if(temp != null){
-            Instant start = Instant.now();
-            session.setAttribute("begin_view",start);
-            SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
-            System.out.println(strsystime);
-            session.setAttribute("begin_view1",strsystime);
-        }
+//        if(temp != null){
+//            Instant start = Instant.now();
+//            session.setAttribute("begin_view",start);
+//            SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            String strsystime = sf.format(System.currentTimeMillis());//系统当前时间
+//            session.setAttribute("begin_view1",strsystime);
+//        }
         int pid = Integer.parseInt(request.getParameter("pid"));
         Product product = service.FindOne(pid);
         session.setAttribute("product",product);

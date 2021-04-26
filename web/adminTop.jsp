@@ -11,7 +11,7 @@
 <div class="container-fluid">
     <div class="hedder-up row">
         <div class="col-lg-3 col-md-3 logo-head">
-            <h1><a class="navbar-brand" href="index.jsp">管理员界面</a></h1>
+            <h1><a class="navbar-brand" href="admin_index.jsp">管理员界面</a></h1>
         </div>
         <div class="col-lg-5 col-md-6 search-right">
             <form class="form-inline my-lg-0">
@@ -26,8 +26,12 @@
                         <a class="fab fa-github" size="12x" style="color: white" href="https://github.com/Lxydouble7"></a>
                     </li>
                     <li>
-                        <a href="admin_index.jsp" style="color: white;margin-left: 100px" >管理员界面</a>
+                        <a href="index.jsp" style="color: white;margin-left: 100px" >客户界面</a>
                     </li>
+                    <li>
+                        <a href="merchant_index.jsp" style="color: white;margin-left: 100px" >商家界面</a>
+                    </li>
+
                 </ul>
 
             </div>

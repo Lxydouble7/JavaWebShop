@@ -25,7 +25,10 @@
                         <a class="fab fa-github" size="12x" style="color: white" href="https://github.com/Lxydouble7"></a>
                     </li>
                     <li>
-                        <a href="merchant_index.jsp" style="color: white;margin-left: 100px" >商家界面</a>
+                        <a href="index.jsp" style="color: white;margin-left: 100px" >客户界面</a>
+                    </li>
+                    <li>
+                        <a href="admin_index.jsp" style="color: white;margin-left: 100px" >管理员界面</a>
                     </li>
                 </ul>
 

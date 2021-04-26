@@ -250,6 +250,7 @@ public class AdminServlet extends BaseServlet{
         if (admin == null) {
             request.getRequestDispatcher("admin_login.jsp").forward(request,response);
         }
+        System.out.println(System.getProperty("user.dir"));
         String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
         List<Integer> forecast = new ArrayList<>();
         Integer temp = 0;
@@ -258,6 +259,7 @@ public class AdminServlet extends BaseServlet{
             forecast.add(temp);
             parameter += " " + String.valueOf(temp);
         }
+        System.out.println(parameter);
         Process pr = null;
         try{
             pr = Runtime.getRuntime().exec(parameter);
@@ -265,6 +267,7 @@ public class AdminServlet extends BaseServlet{
             String line = null;
             while((line = in.readLine())!=null){
                 forecast.add(Integer.valueOf(line));
+                System.out.println(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -370,8 +373,9 @@ public class AdminServlet extends BaseServlet{
         }
         List<Order> warningList = orderService.Warning();
         Integer warningsum = warningList.size();
+        System.out.println(warningsum);
         session.setAttribute("WarningList",warningList);
-        session.setAttribute("logsum",warningsum);
+        session.setAttribute("warningsum",warningsum);
         request.getRequestDispatcher("admin_warning.jsp").forward(request,response);
     }
 }

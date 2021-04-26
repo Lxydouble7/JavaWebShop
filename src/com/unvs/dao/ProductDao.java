@@ -97,11 +97,11 @@ public class ProductDao {
             JDBCTools.release(connection,statement,resultSet);
         }
     }
-    public void NewProduct(String pname, Double price, String image, String image1, String image2, String type, String intro, Integer stock, String description) throws SQLException{
+    public void NewProduct(String pname, Double price, String image, String image1, String image2, String type, String intro, Integer stock, String description,String merchant) throws SQLException{
         Connection connection = JDBCTools.getConnection();
         ResultSet resultSet = null;
         PreparedStatement statement = null;
-        String sql = "INSERT INTO `eshop`.`product` ( `pname`, `price`, `image`, `image1`, `image2`, `type`, `intro`, `stock`, `description`) VALUES (?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO `eshop`.`product` ( `pname`, `price`, `image`, `image1`, `image2`, `type`, `intro`, `stock`, `description`,`merchant`) VALUES (?,?,?,?,?,?,?,?,?,?);";
         try{
             statement = connection.prepareStatement(sql);
             statement.setString(1,pname);
@@ -113,6 +113,7 @@ public class ProductDao {
             statement.setString(7,intro);
             statement.setInt(8,stock);
             statement.setString(9,description);
+            statement.setString(10,merchant);
             statement.executeUpdate();
         } catch(SQLException e){
             e.printStackTrace();

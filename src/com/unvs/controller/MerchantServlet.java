@@ -166,7 +166,7 @@ public class MerchantServlet extends BaseServlet{
         }
         String ip = (String)session.getAttribute("merchantip");
         operationService.NewOperation("商户："+merchant.getName(),ip,"新建商品："+pname);
-        merchantService.NewProduct(pname,price,image,image1,image2,type,intro,stock,description);
+        merchantService.NewProduct(pname,price,image,image1,image2,type,intro,stock,description,merchant.getName());
         request.getRequestDispatcher("admin_index.jsp").forward(request,response);
     }
 

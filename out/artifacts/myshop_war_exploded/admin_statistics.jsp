@@ -78,7 +78,7 @@
                         <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=Forecast" class="nav-link">销量走势和预测</a>
+                        <a href="${pageContext.request.contextPath}/admin?method=Warning" class="nav-link">警告</a>
                     </li>
                 </ul>
             </div>
@@ -121,7 +121,7 @@
             type: 'category',
             boundaryGap: false,
             ${data_date}
-            // data: ['00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30', '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15', '17:30', '18:45', '20:00', '21:15', '22:30', '23:45']
+//             data:['4-13','4-14','4-15','4-16','4-17','4-18','4-19','4-20','4-21','4-22','4-23','4-24','4-25','4-26','4-27','4-28','4-29'],
         },
         yAxis: {
             type: 'value',

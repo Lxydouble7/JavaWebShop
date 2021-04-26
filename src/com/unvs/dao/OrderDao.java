@@ -84,7 +84,7 @@ public class OrderDao {
     }
     public List<Order> ShowAllOrder(String index) throws SQLException{
         String sql = "SELECT * FROM eshop.order;";
-        if (index != null && index.equals("全部")){
+        if (index != null && !index.equals("全部")){
             sql = "SELECT * FROM eshop.order where pname in (select pname from eshop.product where type =\"" + index +"\");";
         }
 
@@ -226,7 +226,7 @@ public class OrderDao {
     }
 
     public List<Order> Warning() throws SQLException{
-        String sql = "SELECT * FROM eshop.order where number >10;";
+        String sql = "SELECT * FROM eshop.order where number >5;";
         ResultSet resultSet = null;
         PreparedStatement statement = null;
         List<Order> result = new ArrayList<>();

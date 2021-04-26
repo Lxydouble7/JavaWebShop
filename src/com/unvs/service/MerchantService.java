@@ -29,8 +29,8 @@ public class MerchantService {
     public List<Product> GetYourProduct(String name) throws SQLException{
         return  productDao.QueryProductByMerchant(name);
     }
-    public void NewProduct (String pname,Double price,String image,String image1,String image2,String type,String intro,Integer stock,String description) throws SQLException {
-        productDao.NewProduct(pname,price,image,image1,image2,type,intro,stock,description);
+    public void NewProduct (String pname,Double price,String image,String image1,String image2,String type,String intro,Integer stock,String description,String merchant) throws SQLException {
+        productDao.NewProduct(pname,price,image,image1,image2,type,intro,stock,description,merchant);
     }
     public void AlterProductByPid(Integer pid,String pname,Double price,String image,String image1,String image2,String type,String intro,Integer stock,String description,String merchant) throws SQLException {
         productDao.AlterProductByPid(pid,pname,price,image,image1,image2,type,intro,stock,description,merchant);

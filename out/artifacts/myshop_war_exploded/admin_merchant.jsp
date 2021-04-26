@@ -64,7 +64,7 @@
                         <a href="${pageContext.request.contextPath}/admin?method=OperationLog" class="nav-link">日志查询</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin?method=Forecast" class="nav-link">销量走势和预测</a>
+                        <a href="${pageContext.request.contextPath}/admin?method=Warning" class="nav-link">警告</a>
                     </li>
                 </ul>
             </div>
@@ -92,7 +92,7 @@
                             <th>id</th>
                             <th>登录账号</th>
                             <th>店铺名称</th>
-                            <th>修改</th>
+<%--                            <th>修改</th>--%>
                             <th>删除</th>
                         </tr>
                         </thead>
@@ -102,9 +102,9 @@
                                 <td class="invert">${merchant.mid}</td>
                                 <td class="invert">${merchant.merchantname}</td>
                                 <td class="invert">${merchant.name}</td>
-                                <td class="invert">
-                                    <a style="color: mediumslateblue"href="${pageContext.request.contextPath}/admin?method=AlterMerchantByMid&mid=${merchant.mid}">修改</a>
-                                </td>
+<%--                                <td class="invert">--%>
+<%--                                    <a style="color: mediumslateblue"href="${pageContext.request.contextPath}/admin?method=AlterMerchantByMid&mid=${merchant.mid}">修改</a>--%>
+<%--                                </td>--%>
                                 <td class="invert">
                                     <a style="color: mediumslateblue"href="${pageContext.request.contextPath}/admin?method=DeleteMerchantByMid&mid=${merchant.mid}">删除</a>
                                 </td>
