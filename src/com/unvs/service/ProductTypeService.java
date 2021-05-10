@@ -20,7 +20,6 @@ public class ProductTypeService {
         if (result == false){
             return false;
         }
-
         dao.NewProductType(type);
         return true;
     }

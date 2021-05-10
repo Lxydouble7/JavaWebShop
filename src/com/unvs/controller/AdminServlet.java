@@ -251,7 +251,8 @@ public class AdminServlet extends BaseServlet{
             request.getRequestDispatcher("admin_login.jsp").forward(request,response);
         }
         System.out.println(System.getProperty("user.dir"));
-        String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
+        String parameter = "python C:\\Users\\Administrator\\Desktop\\myshop\\try.py ";
+        //String parameter = "python C:\\Users\\UNVS\\Desktop\\test\\try.py ";
         List<Integer> forecast = new ArrayList<>();
         Integer temp = 0;
         for (int i = 14;i>0;i--){
